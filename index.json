@@ -1,0 +1,120 @@
+[
+{
+	"uri": "//localhost:1313/",
+	"title": "AWS CodePipeline",
+	"tags": [],
+	"description": "",
+	"content": "Work with Amazon Code PipeLine Overall In this workshop, we\u0026rsquo;ll delve into the fundamentals and hands-on exercises of Amazon CodePipeline, a powerful tool for automating your software release processes. You\u0026rsquo;ll gain practical experience by creating both public and private instance connections, enabling you to streamline your development workflow efficiently. Let\u0026rsquo;s dive in and explore the capabilities of CodePipeline together!\nContent Introduction Preparation Clean up resources "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.1-createecr/",
+	"title": "Create an ECR",
+	"tags": [],
+	"description": "",
+	"content": "Create an ECR Repository to store the docker image Go to Amazon Elastic Container Registry You can use the ECR console to create a ECR repository. If you already have a repository you want to use for this tutorial, you can skip this step.\naws ecr create-repository --repository-name my-demo-repo --image-tag-mutability IMMUTABLE --image-scanning-configuration scanOnPush=true "
+},
+{
+	"uri": "//localhost:1313/1-introduce/",
+	"title": "Introduction",
+	"tags": [],
+	"description": "",
+	"content": "CICD pipeline overview\nEach stage of the CI/CD pipeline is structured as a logical unit in the delivery process. Each stage acts as a gate that vets a certain aspect of the code. As the code progresses through the pipeline, the assumption is that the quality of the code is higher in the later stages, because more aspects of it continue to be verified. Problems uncovered in an early stage stop the code from progressing through the pipeline. Results from the tests are immediately sent to the team, and all further builds and releases are stopped if software does not pass the stage.\nAWS brings in a complete set of CI/CD developer tools to accelerate software development and release cycles. AWS CodePipeline automates the build, test, and deploy phases of the release process every time there is a code change, based on the defined release model. This enables the rapid and reliable delivery of features and updates.\nCode pipelines can integrate with other services. These can be AWS Services, such as Amazon Simple Storage Service (Amazon S3), or third-party products, such as GitHub. AWS CodePipeline can address a variety of development and operation use cases including:\nCompiling, building, and testing code with AWS CodeBuild Continuous delivery of container-based applications to the cloud Pre-deployment validation of artifacts (such as descriptors and container images) required for network service or specific cloud-native network functions Over the long weekend, I have decided to build a simple CI/CD pipeline so that all the changes I am pushing to my test EKS cluster should be done via an automated way rather than me pushing all the changes manually.\nAWS Services used\nCodeCommit: Simple way of think of CodeCommit is the AWS equivalent of GitHub to host your private Git repositories. CodeBuild: CodeBuild is like your build server, which can compile your source code and produce artifacts. In this case, I use CodeBuild to create a docker image, push it to AWS Elastic Container Registry(ECR) and then deploy the image to the Kubernetes cluster. Generally, for deployment tasks, AWS has another service CodeDeploy, but currently, it doesn’t support EKS. Elastic Container Registry(ECR): AWS ECR is equivalent to dockerhub, where you can store your docker images. CodePipeline: CodePipeline is the AWS equivalent of Jenkins, where you build a pipeline including various stages. While testing I hit the dockerhub rate limit some time(as I am not logged in to dockerub), so I switched to AWS ECR public repository docker pull erc image\nSo my workflow is pretty simple, push the changes to CodeCommit, which will trigger the CodeBuild. CodeBuild will build the docker image and push it to ECR. From ECR, kubelet will pick the latest image and deploy it to the EKS cluster.\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.7-createiamrole/",
+	"title": "Add the newly created IAM role",
+	"tags": [],
+	"description": "",
+	"content": "Next step is to add the newly created IAM role(CodeBuildEKSRole) to the aws-auth configmap of the EKS cluster. 1. Check the aws-auth configmap\nkubectl get configmap aws-auth -o yaml -n kube-system 2. Export your AWS Account(To get your aws account id run the following command aws sts get-caller-identity \u0026ndash;query Account \u0026ndash;output text)\nexport ACCOUNT_ID=\u0026lt;aws account id\u0026gt; 3. Set the ROLE value\nROLE=\u0026#34; - rolearn: arn:aws:iam::$ACCOUNT_ID:role/CodeBuildEKSRole\\n username: build\\n groups:\\n - system:masters\u0026#34; 4. Get the current aws-auth configMap data and add new role to it\nkubectl get -n kube-system configmap/aws-auth -o yaml | awk \u0026#34;/mapRoles: \\|/{print;print \\\u0026#34;$ROLE\\\u0026#34;;next}1\u0026#34; \u0026gt; /tmp/auth-patch.yml 5. Patch the aws-auth configmap with new role\nkubectl patch configmap/aws-auth -n kube-system --patch \u0026#34;$(cat /tmp/auth-patch.yml)\u0026#34; "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.4-clonerepo/",
+	"title": "Clone the git repo created in step 2",
+	"tags": [],
+	"description": "",
+	"content": "Once the credentials is created, clone the git repo created in step 2 git clone https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/mydemorepo Cloning into \u0026#39;mydemorepo\u0026#39;... Username for \u0026#39;https://git-codecommit.ap-southeast-1.amazonaws.com\u0026#39;: 11thfeb-at-892515485494 Password for \u0026#39;https://11thfeb-at-892515485494@git-codecommit.ap-southeast-1.amazonaws.com\u0026#39;: warning: You appear to have cloned an empty repository NOTE: The username for code commit is different from the IAM username. Please pay special attention to that.\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.5-copyfile/",
+	"title": "Copy all the files to this application and Kubernetes manifests to this directory.",
+	"tags": [],
+	"description": "",
+	"content": "Copy all the files to this application and Kubernetes manifests to this directory. \u0026gt; tree . ├── Dockerfile ├── app │ └── index.html └── manifests └── deployment.yaml Dockerfile\nFROM nginx COPY app /usr/share/nginx/html/app deployment.yaml\napiVersion: apps/v1 kind: Deployment metadata: name: my-eks-pipeline-deployment labels: app: my-eks-pipeline-deployment spec: replicas: 1 selector: matchLabels: app: my-eks-pipeline-deployment template: metadata: labels: app: my-eks-pipeline-deployment spec: containers: - name: my-eks-pipeline-deployment image: CONTAINER_IMAGE ports: - containerPort: 80 index.html\n\u0026lt;!DOCTYPE html\u0026gt; \u0026lt;html\u0026gt; \u0026lt;h1\u0026gt;Welcome to Pipeline for EKS using CodeCommit, CodeBuild and CodePipeline \u0026lt;/h1\u0026gt; \u0026lt;h3\u0026gt; This is demo pipeline for EKS - v1\u0026lt;/h3\u0026gt; \u0026lt;/body\u0026gt; \u0026lt;/html\u0026gt; "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.2-createcodecommit/",
+	"title": "Create a CodeCommit Repository",
+	"tags": [],
+	"description": "",
+	"content": "Create a CodeCommit Repository Go to Amazon CodeCommit You can use the CodeCommit console to create a CodeCommit repository. If you already have a repository you want to use for this tutorial, you can skip this step. aws codecommit create-repository --repository-name mydemorepo "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.3-createiam/",
+	"title": "Create a git credential for IAM service",
+	"tags": [],
+	"description": "",
+	"content": "Create a git credential for IAM service aws iam create-service-specific-credential --user-name 11thfeb --service-name codecommit.amazonaws.com Please make a note of these credentials. If you want to do it via UI, check the following doc https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.6-createstsassume/",
+	"title": "Create an STS assume role",
+	"tags": [],
+	"description": "",
+	"content": "Create an STS assume role for CodeBuild to have permission to interact with AWS EKS. We will create an IAM role CodeBuildEKSRole and add an inline policy EKS:Describe that CodeBuild will use to interact with the EKS cluster via kubectl.\n1. Export your AWS Account(To get your aws account id run the following command aws sts get-caller-identity \u0026ndash;query Account \u0026ndash;output text)\nexport ACCOUNT_ID=\u0026lt;aws account id\u0026gt; 2. Set the Trust Policy\nTRUST=\u0026#34;{ \\\u0026#34;Version\\\u0026#34;: \\\u0026#34;2012-10-17\\\u0026#34;, \\\u0026#34;Statement\\\u0026#34;: [ { \\\u0026#34;Effect\\\u0026#34;: \\\u0026#34;Allow\\\u0026#34;, \\\u0026#34;Principal\\\u0026#34;: { \\\u0026#34;AWS\\\u0026#34;: \\\u0026#34;arn:aws:iam::${ACCOUNT_ID}:root\\\u0026#34; }, \\\u0026#34;Action\\\u0026#34;: \\\u0026#34;sts:AssumeRole\\\u0026#34; } ] }\u0026#34; 3. Create IAM Role for CodeBuild to Interact with EKS\naws iam create-role --role-name CodeBuildEKSRole --assume-role-policy-document \u0026#34;$TRUST\u0026#34; --output text --query \u0026#39;Role.Arn\u0026#39; 4. Create an Inline Policy with eks:Describe permission and redirect the output to eksdescribe.json\necho \u0026#39;{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: \u0026#34;eks:Describe*\u0026#34;, \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; } ] }\u0026#39; \u0026gt; /tmp/eksdescribe.json 5. Add this Inline Policy to the IAM Role CodeBuildEKSRole\naws iam put-role-policy --role-name CodeBuildEKSRole --policy-name eks-describe-policy --policy-document file:///tmp/eksdescribe.json "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.8-codebuild/",
+	"title": "Create the buildspec.yml for CodeBuild",
+	"tags": [],
+	"description": "",
+	"content": "Next step is to create the buildspec.yml for CodeBuild. There are a lot of examples available on the internet. I refer to some of these and modify them based on my requirement https://github.com/aquasecurity/amazon-eks-devsecops/blob/master/buildspec.yml\nversion: 0.2 phases: install: commands: - echo \u0026#34;Install Phase - if you need additional package, add it in this stage\u0026#34; pre_build: commands: # This Docker Image tag will have date, time and Codecommit version - TAG=\u0026#34;$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)\u0026#34; # Updating Docker Image tag in your Kubernetes Deployment Manifest - echo \u0026#34;Update Image tag in kubernetes manifest\u0026#34; - sed -i \u0026#39;s@CONTAINER_IMAGE@\u0026#39;\u0026#34;$REPOSITORY_URI:$TAG\u0026#34;\u0026#39;@\u0026#39; manifests/deployment.yaml # Check AWS CLI Version - echo \u0026#34;Checking AWS CLI Version...\u0026#34; - aws --version # Login to ECR Registry - echo \u0026#34;Login in to Amazon ECR Registry\u0026#34; - $(aws ecr get-login --no-include-email) # Update Kube config Home Directory - export KUBECONFIG=$HOME/.kube/config build: commands: # Building Docker Image - echo \u0026#34;Docker build started on `date`\u0026#34; - echo \u0026#34;Building the Docker image...\u0026#34; - docker build --tag $REPOSITORY_URL:$TAG . post_build: commands: # Push Docker Image to ECR Repository - echo \u0026#34;Docker build completed on `date`\u0026#34; - echo \u0026#34;Pushing the Docker image to ECR Repository\u0026#34; - docker push $REPOSITORY_URI:$TAG - echo \u0026#34;Docker Push to ECR Repository Completed - $REPOSITORY_URI:$TAG\u0026#34; # Get AWS Credential using STS Assume Role for kubectl - echo \u0026#34;Setting Environment Variables related to AWS CLI for Kube Config Setup\u0026#34; - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_ROLE_ARN --role-session-name eks-codebuild --duration-seconds 900) - export AWS_ACCESS_KEY_ID=\u0026#34;$(echo ${CREDENTIALS} | jq -r \u0026#39;.Credentials.AccessKeyId\u0026#39;)\u0026#34; - export AWS_SECRET_ACCESS_KEY=\u0026#34;$(echo ${CREDENTIALS} | jq -r \u0026#39;.Credentials.SecretAccessKey\u0026#39;)\u0026#34; - export AWS_SESSION_TOKEN=\u0026#34;$(echo ${CREDENTIALS} | jq -r \u0026#39;.Credentials.SessionToken\u0026#39;)\u0026#34; - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r \u0026#39;.Credentials.Expiration\u0026#39;) # Updating kubectl with your EKS Cluster - echo \u0026#34;Update Kube Config configuration\u0026#34; - aws eks update-kubeconfig --name $EKS_CLUSTERNAME # Show time, applying manifests changes using kubectl - echo \u0026#34;Apply changes to kube manifests\u0026#34; - kubectl apply -f manifests/ - echo \u0026#34;All done!!!! Kubernetes changes applied\u0026#34; # Create Artifacts which we can use if we want to continue our pipeline for other stages - printf \u0026#39;[{\u0026#34;name\u0026#34;:\u0026#34;deployment.yaml\u0026#34;,\u0026#34;imageUri\u0026#34;:\u0026#34;%s\u0026#34;}]\u0026#39; $REPOSITORY_URI:$TAG \u0026gt; build.json artifacts: files: - build.json - manifests/* In order for this buildspec to work you need to add some environment variable\nEKS_CLUSTERNAME=\u0026lt;your eks cluster name\u0026gt; EKS_ROLE_ARN=\u0026lt;IAM Role create in Step 6\u0026gt; REPOSITORY_URL=\u0026lt;ECR repository created in step 1\u0026gt; "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/",
+	"title": "Preparation ",
+	"tags": [],
+	"description": "",
+	"content": " "
+},
+{
+	"uri": "//localhost:1313/4-s3log/",
+	"title": "Manage session logs",
+	"tags": [],
+	"description": "",
+	"content": "With Session Manager, we can view the history of connections to instances through Session history. However, we have not seen the details of the commands used in a session.\nIn this section, we will proceed to create an S3 bucket and configure the session logs feature to see the details of the commands used in the session.\nContent: Update IAM Role Create S3 Bucket Create S3 Gateway endpoint Configure Session logs "
+},
+{
+	"uri": "//localhost:1313/5-portfwd/",
+	"title": "Port Forwarding",
+	"tags": [],
+	"description": "",
+	"content": "\rPort Forwarding is a useful way to redirect network traffic from one IP address - Port to another IP address - Port. With Port Forwarding we can access an EC2 instance located in the private subnet from our workstation.\nWe will configure Port Forwarding for the RDP connection between our machine and Private Windows Instance located in the private subnet we created for this exercise.\nCreate IAM user with permission to connect SSM Go to IAM service management console Click Users , then click Add users. At the Add user page. In the User name field, enter Portfwd. Click on Access key - Programmatic access. Click Next: Permissions. Click Attach existing policies directly.\nIn the search box, enter ssm. Click on AmazonSSMFullAccess. Click Next: Tags, click Next: Reviews. Click Create user. Save Access key ID and Secret access key information to perform AWS CLI configuration.\nInstall and Configure AWS CLI and Session Manager Plugin To perform this hands-on, make sure your workstation has AWS CLI and Session Manager Plugin installed -manager-working-with-install-plugin.html)\nMore hands-on tutorials on installing and configuring the AWS CLI can be found here.\nWith Windows, when extracting the Session Manager Plugin installation folder, run the install.bat file with Administrator permission to perform the installation.\nImplement Portforwarding Run the command below in Command Prompt on your machine to configure Port Forwarding. aws ssm start-session --target (your ID windows instance) --document-name AWS-StartPortForwardingSession --parameters portNumber=\u0026#34;3389\u0026#34;,localPortNumber=\u0026#34;9999\u0026#34; --region (your region) Windows Private Instance Instance ID information can be found when you view the EC2 Windows Private Instance server details.\nExample command: C:\\Windows\\system32\u0026gt;aws ssm start-session --target i-06343d7377486760c --document-name AWS-StartPortForwardingSession --parameters portNumber=\u0026#34;3389\u0026#34;,localPortNumber=\u0026#34;9999\u0026#34; --region ap-southeast-1 If your command gives an error like below: SessionManagerPlugin is not found. Please refer to SessionManager Documentation here: http://docs.aws.amazon.com/console/systems-manager/session-manager-plugin-not-found\nProve that you have not successfully installed the Session Manager Plugin. You may need to relaunch Command Prompt after installing Session Manager Plugin.\nConnect to the Private Windows Instance you created using the Remote Desktop tool on your workstation. In the Computer section: enter localhost:9999. Return to the administration interface of the System Manager - Session Manager service. Click tab Session history. We will see session logs with Document name AWS-StartPortForwardingSession. Congratulations on completing the lab on how to use Session Manager to connect and store session logs in S3 bucket. Remember to perform resource cleanup to avoid unintended costs.\n"
+},
+{
+	"uri": "//localhost:1313/6-cleanup/",
+	"title": "Clean up resources",
+	"tags": [],
+	"description": "",
+	"content": "We will take the following steps to delete the resources we created in this exercise.\nDelete EC2 instance Go to EC2 service management console\nClick Instances. Select both Public Linux Instance and Private Windows Instance instances. Click Instance state. Click Terminate instance, then click Terminate to confirm. Go to IAM service management console\nClick Roles. In the search box, enter SSM. Click to select SSM-Role. Click Delete, then enter the role name SSM-Role and click Delete to delete the role. Click Users. Click on user Portfwd. Click Delete, then enter the user name Portfwd and click Delete to delete the user. Delete S3 bucket Access System Manager - Session Manager service management console.\nClick the Preferences tab. Click Edit. Scroll down. In the section S3 logging. Uncheck Enable to disable logging. Scroll down. Click Save. Go to S3 service management console\nClick on the S3 bucket we created for this lab. (Example: lab-fcj-bucket-0001 ) Click Empty. Enter permanently delete, then click Empty to proceed to delete the object in the bucket. Click Exit. After deleting all objects in the bucket, click Delete\nEnter the name of the S3 bucket, then click Delete bucket to proceed with deleting the S3 bucket. Delete VPC Endpoints Go to VPC service management console Click Endpoints. Select the 4 endpoints we created for the lab including SSM, SSMMESSAGES, EC2MESSAGES, S3GW. Click Actions. Click Delete VPC endpoints. In the confirm box, enter delete.\nClick Delete to proceed with deleting endpoints. Click the refresh icon, check that all endpoints have been deleted before proceeding to the next step.\nDelete VPC Go to VPC service management console\nClick Your VPCs. Click on Lab VPC. Click Actions. Click Delete VPC. In the confirm box, enter delete to confirm, click Delete to delete Lab VPC and related resources.\n"
+},
+{
+	"uri": "//localhost:1313/3-accessibilitytoinstances/",
+	"title": "",
+	"tags": [],
+	"description": "",
+	"content": " "
+},
+{
+	"uri": "//localhost:1313/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
