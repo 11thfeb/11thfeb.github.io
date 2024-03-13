@@ -12,21 +12,21 @@
     <title>Create an ECR :: AWS CodePipeline</title>
 
     
-    <link href="/css/nucleus.css?1710348324" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1710348324" rel="stylesheet">
-    <link href="/css/hybrid.css?1710348324" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1710348324" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1710348324" rel="stylesheet">
-    <link href="/css/auto-complete.css?1710348324" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1710348324" rel="stylesheet">
-    <link href="/css/theme.css?1710348324" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1710348324" rel="stylesheet">
+    <link href="/css/nucleus.css?1710350310" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1710350310" rel="stylesheet">
+    <link href="/css/hybrid.css?1710350310" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1710350310" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1710350310" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710350310" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1710350310" rel="stylesheet">
+    <link href="/css/theme.css?1710350310" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1710350310" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1710348324" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1710350310" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1710348324"></script>
+    <script src="/js/jquery-3.3.1.min.js?1710350310"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1710348324"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1710348324"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1710350310"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1710350310"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1710348324"></script>
+<script type="text/javascript" src="/js/search.js?1710350310"></script>
 
     
   </div>
@@ -251,13 +251,13 @@
  
   
     
-    <li data-nav-id="/2-prerequiste/2.5-copyfile/" title="Copy all the files to this application and Kubernetes manifests to this directory." class="dd-item 
+    <li data-nav-id="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files" class="dd-item 
         
         
         
         ">
-      <a href="/2-prerequiste/2.5-copyfile/">
-           <b> 2.5 </b> Copy all the files to this application and Kubernetes manifests to this directory.
+      <a href="/2-prerequiste/2.5-transferfile/">
+           <b> 2.5 </b> Transfer all necessary files
           
             <i class="fas fa-check read-icon"></i>
           
@@ -620,14 +620,39 @@
 </ol>
 <p><img alt="Connect" src="/images/1.ecr/ecr-console.png"></p>
 <ol start="2">
-<li>
-<p>You can use the ECR console to create a ECR repository. If you already have a repository you want to use for this tutorial, you can skip this step.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws ecr create-repository --repository-name  my-demo-repo --image-tag-mutability IMMUTABLE --image-scanning-configuration scanOnPush<span style="color:#f92672">=</span>true
-</span></span></code></pre></div></li>
+<li>You can use the ECR console to create a ECR repository. If you already have a repository you want to use for this tutorial, you can skip this step.</li>
 </ol>
-<p><img alt="Connect" src="/images/1.ecr/ecrcli.png"></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>   aws ecr create-repository --repository-name  my-demo-repo --image-tag-mutability IMMUTABLE --image-scanning-configuration scanOnPush<span style="color:#f92672">=</span>true
+</span></span></code></pre></div><p>Result of <code>aws ecr create-repository</code> Command</p>
+<ul>
+<li>Upon executing the <code>aws ecr create-repository</code> command with the specified parameters, you will receive a result indicating the status of the repository creation process. Here is what you can expect in the output:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;repository&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;repositoryArn&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:ecr:ap-southeast-1:account-id:repository/my-demo-repo&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;registryId&#34;</span>: <span style="color:#e6db74">&#34;account-id&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;repositoryName&#34;</span>: <span style="color:#e6db74">&#34;my-demo-repo&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;repositoryUri&#34;</span>: <span style="color:#e6db74">&#34;aws_account_id.dkr.ecr.ap-southeast-1.amazonaws.com/my-demo-repo&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;createdAt&#34;</span>: <span style="color:#e6db74">&#34;2024-03-11T11:44:26.574000+07:00&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;imageTagMutability&#34;</span>: <span style="color:#e6db74">&#34;IMMUTABLE&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;imageScanningConfiguration&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;scanOnPush&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;encryptionConfiguration&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;encryptionType&#34;</span>: <span style="color:#e6db74">&#34;AES256&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><em>repositoryArn</em>: The Amazon Resource Name (ARN) of the newly created repository.</li>
+<li><em>registryId</em>: The AWS account ID that owns the repository.</li>
+<li><em>repositoryName</em>: The name of the repository created, in this case, &ldquo;my-demo-repo&rdquo;.</li>
+<li><em>repositoryUri</em>: The URI of the repository, which can be used to push and pull images.</li>
+<li><em>createdAt</em>: The timestamp indicating when the repository was created.</li>
+<li><em>imageTagMutability</em>: Specifies whether image tags can be overwritten or are immutable. In this case, it&rsquo;s set to &ldquo;IMMUTABLE&rdquo;.</li>
+<li><em>imageScanningConfiguration</em>: Indicates whether image scanning is enabled for this repository, with &ldquo;scanOnPush&rdquo; set to true.</li>
+</ul>
+<p>This output confirms that the repository <a href="/">&ldquo;my-demo-repo&rdquo;</a> has been successfully created in Amazon ECR with the specified settings. You can now proceed to use this repository for storing and managing your Docker container images.</p>
 
 
 
@@ -903,19 +928,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1710348324"></script>
-    <script src="/js/jquery.sticky.js?1710348324"></script>
-    <script src="/js/featherlight.min.js?1710348324"></script>
-    <script src="/js/highlight.pack.js?1710348324"></script>
+    <script src="/js/clipboard.min.js?1710350310"></script>
+    <script src="/js/perfect-scrollbar.min.js?1710350310"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1710350310"></script>
+    <script src="/js/jquery.sticky.js?1710350310"></script>
+    <script src="/js/featherlight.min.js?1710350310"></script>
+    <script src="/js/highlight.pack.js?1710350310"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1710348324"></script>
-    <script src="/js/learn.js?1710348324"></script>
-    <script src="/js/hugo-learn.js?1710348324"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1710350310"></script>
+    <script src="/js/learn.js?1710350310"></script>
+    <script src="/js/hugo-learn.js?1710350310"></script>
 
-    <link href="/mermaid/mermaid.css?1710348324" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1710348324"></script>
+    <link href="/mermaid/mermaid.css?1710350310" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1710350310"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

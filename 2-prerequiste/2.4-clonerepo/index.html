@@ -12,21 +12,21 @@
     <title>Clone the git repo created in step 2 :: AWS CodePipeline</title>
 
     
-    <link href="/css/nucleus.css?1710348324" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1710348324" rel="stylesheet">
-    <link href="/css/hybrid.css?1710348324" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1710348324" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1710348324" rel="stylesheet">
-    <link href="/css/auto-complete.css?1710348324" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1710348324" rel="stylesheet">
-    <link href="/css/theme.css?1710348324" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1710348324" rel="stylesheet">
+    <link href="/css/nucleus.css?1710350772" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1710350772" rel="stylesheet">
+    <link href="/css/hybrid.css?1710350772" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1710350772" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1710350772" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710350772" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1710350772" rel="stylesheet">
+    <link href="/css/theme.css?1710350772" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1710350772" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1710348324" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1710350772" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1710348324"></script>
+    <script src="/js/jquery-3.3.1.min.js?1710350772"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1710348324"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1710348324"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1710350772"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1710350772"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1710348324"></script>
+<script type="text/javascript" src="/js/search.js?1710350772"></script>
 
     
   </div>
@@ -251,13 +251,13 @@
  
   
     
-    <li data-nav-id="/2-prerequiste/2.5-copyfile/" title="Copy all the files to this application and Kubernetes manifests to this directory." class="dd-item 
+    <li data-nav-id="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files" class="dd-item 
         
         
         
         ">
-      <a href="/2-prerequiste/2.5-copyfile/">
-           <b> 2.5 </b> Copy all the files to this application and Kubernetes manifests to this directory.
+      <a href="/2-prerequiste/2.5-transferfile/">
+           <b> 2.5 </b> Transfer all necessary files
           
             <i class="fas fa-check read-icon"></i>
           
@@ -617,10 +617,11 @@
 	<h3 id="once-the-credentials-is-created-clone-the-git-repo-created-in-step-2">Once the credentials is created, clone the git repo created in step 2</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  git clone https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/mydemorepo
 </span></span><span style="display:flex;"><span>  Cloning into <span style="color:#e6db74">&#39;mydemorepo&#39;</span>...
-</span></span><span style="display:flex;"><span>  Username <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;https://git-codecommit.ap-southeast-1.amazonaws.com&#39;</span>: 11thfeb-at-892515485494
-</span></span><span style="display:flex;"><span>  Password <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;https://11thfeb-at-892515485494@git-codecommit.ap-southeast-1.amazonaws.com&#39;</span>: 
+</span></span><span style="display:flex;"><span>  Username <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;https://git-codecommit.ap-southeast-1.amazonaws.com&#39;</span>: 11thfeb-at-xxxxxxxxxxxx
+</span></span><span style="display:flex;"><span>  Password <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;https://11thfeb-at-xxxxxxxxxxxx@git-codecommit.ap-southeast-1.amazonaws.com&#39;</span>: 
 </span></span><span style="display:flex;"><span>  warning: You appear to have cloned an empty repository
-</span></span></code></pre></div>
+</span></span></code></pre></div><p>After entering the username and password for authentication, the <code>git clone</code> command will proceed to clone the empty repository named &lsquo;mydemorepo&rsquo; into the local directory. You can now start adding files, making commits, and pushing changes to the CodeCommit repository.</p>
+
 <div class="notices tip" ><p>NOTE: The username for code commit is different from the IAM username. Please pay special attention to that.</p>
 </div>
 
@@ -892,7 +893,7 @@
 			<a class="nav nav-prev" href="/2-prerequiste/2.3-createiam/" title="Create a git credential for IAM service"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/2-prerequiste/2.5-copyfile/" title="Copy all the files to this application and Kubernetes manifests to this directory." style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -902,19 +903,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1710348324"></script>
-    <script src="/js/jquery.sticky.js?1710348324"></script>
-    <script src="/js/featherlight.min.js?1710348324"></script>
-    <script src="/js/highlight.pack.js?1710348324"></script>
+    <script src="/js/clipboard.min.js?1710350772"></script>
+    <script src="/js/perfect-scrollbar.min.js?1710350772"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1710350772"></script>
+    <script src="/js/jquery.sticky.js?1710350772"></script>
+    <script src="/js/featherlight.min.js?1710350772"></script>
+    <script src="/js/highlight.pack.js?1710350772"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1710348324"></script>
-    <script src="/js/learn.js?1710348324"></script>
-    <script src="/js/hugo-learn.js?1710348324"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1710350772"></script>
+    <script src="/js/learn.js?1710350772"></script>
+    <script src="/js/hugo-learn.js?1710350772"></script>
 
-    <link href="/mermaid/mermaid.css?1710348324" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1710348324"></script>
+    <link href="/mermaid/mermaid.css?1710350772" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1710350772"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

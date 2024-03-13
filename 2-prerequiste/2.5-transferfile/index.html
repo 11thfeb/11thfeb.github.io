@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Create an STS assume role :: AWS CodePipeline</title>
+    <title>Transfer all necessary files :: AWS CodePipeline</title>
 
     
     <link href="/css/nucleus.css?1710350772" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/2-prerequiste/2.6-createstsassume/">
+  <body class="" data-url="/2-prerequiste/2.5-transferfile/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -253,7 +253,7 @@
     
     <li data-nav-id="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/2-prerequiste/2.5-transferfile/">
@@ -281,7 +281,7 @@
     
     <li data-nav-id="/2-prerequiste/2.6-createstsassume/" title="Create an STS assume role" class="dd-item 
         
-        active
+        
         
         ">
       <a href="/2-prerequiste/2.6-createstsassume/">
@@ -477,7 +477,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-prerequiste/2.6-createstsassume/" selected>English</option>
+                      <option id="en" value="//localhost:1313/2-prerequiste/2.5-transferfile/" selected>English</option>
                     
                   
               
@@ -569,7 +569,7 @@
             
           
           
-            <a href='/'>AWS CodePipeline</a> > <a href='/2-prerequiste/'>Preparation </a> > Create an STS assume role
+            <a href='/'>AWS CodePipeline</a> > <a href='/2-prerequiste/'>Preparation </a> > Transfer all necessary files
           
         
           
@@ -586,7 +586,7 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#create-an-sts-assume-role-for-codebuild-to-have-permission-to-interact-with-aws-eks">Create an STS assume role for CodeBuild to have permission to interact with AWS EKS.</a></li>
+        <li><a href="#copy-all-the-files-to-this-application-and-kubernetes-manifests-to-this-directory">Copy all the files to this application and Kubernetes manifests to this directory.</a></li>
       </ul>
     </li>
   </ul>
@@ -606,7 +606,7 @@
           
             <h1>
               
-              Create an STS assume role
+              Transfer all necessary files
             </h1>
           
 
@@ -614,19 +614,50 @@
 
 
 
-	<h3 id="create-an-sts-assume-role-for-codebuild-to-have-permission-to-interact-with-aws-eks">Create an STS assume role for CodeBuild to have permission to interact with AWS EKS.</h3>
-<p>We will create an IAM role CodeBuildEKSRole and add an inline policy EKS:Describe that CodeBuild will use to interact with the EKS cluster via kubectl.</p>
-<p><em>1. Export your AWS Account(To get your aws account id run the following command aws sts get-caller-identity &ndash;query Account &ndash;output text)</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export ACCOUNT_ID<span style="color:#f92672">=</span>&lt;aws account id&gt;
-</span></span></code></pre></div><p><em>2. Set the Trust Policy</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>TRUST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{ \&#34;Version\&#34;: \&#34;2012-10-17\&#34;, \&#34;Statement\&#34;: [ { \&#34;Effect\&#34;: \&#34;Allow\&#34;, \&#34;Principal\&#34;: { \&#34;AWS\&#34;: \&#34;arn:aws:iam::</span><span style="color:#e6db74">${</span>ACCOUNT_ID<span style="color:#e6db74">}</span><span style="color:#e6db74">:root\&#34; }, \&#34;Action\&#34;: \&#34;sts:AssumeRole\&#34; } ] }&#34;</span>
-</span></span></code></pre></div><p><em>3. Create IAM Role for CodeBuild to Interact with EKS</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws iam create-role --role-name CodeBuildEKSRole --assume-role-policy-document <span style="color:#e6db74">&#34;</span>$TRUST<span style="color:#e6db74">&#34;</span> --output text --query <span style="color:#e6db74">&#39;Role.Arn&#39;</span>
-</span></span></code></pre></div><p><em>4. Create an Inline Policy with eks:Describe permission and redirect the output to eksdescribe.json</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;{ &#34;Version&#34;: &#34;2012-10-17&#34;, &#34;Statement&#34;: [ { &#34;Effect&#34;: &#34;Allow&#34;, &#34;Action&#34;: &#34;eks:Describe*&#34;, &#34;Resource&#34;: &#34;*&#34; } ] }&#39;</span> &gt; /tmp/eksdescribe.json
-</span></span></code></pre></div><p><em>5. Add this Inline Policy to the IAM Role CodeBuildEKSRole</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws iam put-role-policy --role-name CodeBuildEKSRole --policy-name eks-describe-policy --policy-document file:///tmp/eksdescribe.json
-</span></span></code></pre></div>
+	<h3 id="copy-all-the-files-to-this-application-and-kubernetes-manifests-to-this-directory">Copy all the files to this application and Kubernetes manifests to this directory.</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    &gt; tree
+</span></span><span style="display:flex;"><span>    .
+</span></span><span style="display:flex;"><span>    ├── Dockerfile
+</span></span><span style="display:flex;"><span>    ├── app
+</span></span><span style="display:flex;"><span>    │   └── index.html
+</span></span><span style="display:flex;"><span>    └── manifests
+</span></span><span style="display:flex;"><span>        └── deployment.yaml
+</span></span></code></pre></div><h4 id="dockerfile">Dockerfile</h4>
+<p>This Dockerfile will create a Docker image based on the official Nginx image and copy the contents of the &lsquo;app&rsquo; directory from the current directory into the &lsquo;/usr/share/nginx/html/app&rsquo; directory within the container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    FROM nginx
+</span></span><span style="display:flex;"><span>    COPY app /usr/share/nginx/html/app
+</span></span></code></pre></div><h4 id="deploymentyaml">deployment.yaml</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-eks-pipeline-deployment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">my-eks-pipeline-deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">my-eks-pipeline-deployment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">my-eks-pipeline-deployment</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-eks-pipeline-deployment</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">CONTAINER_IMAGE</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>Replace <code>CONTAINER_IMAGE</code> with the actual image name and tag that you want to use for your deployment. This YAML defines a Kubernetes Deployment named my-eks-pipeline-deployment with one replica, using the specified container image and exposing port 80. Adjust the metadata, labels, and ports as needed for your specific use case.</p>
+<h4 id="indexhtml">index.html</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">h1</span>&gt;Welcome to Pipeline for EKS using CodeCommit, CodeBuild and CodePipeline &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">h3</span>&gt; This is demo pipeline for EKS - v1&lt;/<span style="color:#f92672">h3</span>&gt;
+</span></span><span style="display:flex;"><span>   &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>This HTML file displays a welcome message and version information for your pipeline demo. You can further customize the content, styling, and structure according to your preferences.</p>
+
 
 
 
@@ -768,22 +799,6 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
                     
                 
                 
@@ -803,6 +818,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -891,10 +922,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/2-prerequiste/2.4-clonerepo/" title="Clone the git repo created in step 2"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/2-prerequiste/2.7-createiamrole/" title="Add the newly created IAM role" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/2-prerequiste/2.6-createstsassume/" title="Create an STS assume role" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

@@ -12,21 +12,21 @@
     <title>Create a git credential for IAM service :: AWS CodePipeline</title>
 
     
-    <link href="/css/nucleus.css?1710348324" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1710348324" rel="stylesheet">
-    <link href="/css/hybrid.css?1710348324" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1710348324" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1710348324" rel="stylesheet">
-    <link href="/css/auto-complete.css?1710348324" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1710348324" rel="stylesheet">
-    <link href="/css/theme.css?1710348324" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1710348324" rel="stylesheet">
+    <link href="/css/nucleus.css?1710350772" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1710350772" rel="stylesheet">
+    <link href="/css/hybrid.css?1710350772" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1710350772" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1710350772" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710350772" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1710350772" rel="stylesheet">
+    <link href="/css/theme.css?1710350772" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1710350772" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1710348324" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1710350772" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1710348324"></script>
+    <script src="/js/jquery-3.3.1.min.js?1710350772"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1710348324"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1710348324"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1710350772"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1710350772"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1710348324"></script>
+<script type="text/javascript" src="/js/search.js?1710350772"></script>
 
     
   </div>
@@ -251,13 +251,13 @@
  
   
     
-    <li data-nav-id="/2-prerequiste/2.5-copyfile/" title="Copy all the files to this application and Kubernetes manifests to this directory." class="dd-item 
+    <li data-nav-id="/2-prerequiste/2.5-transferfile/" title="Transfer all necessary files" class="dd-item 
         
         
         
         ">
-      <a href="/2-prerequiste/2.5-copyfile/">
-           <b> 2.5 </b> Copy all the files to this application and Kubernetes manifests to this directory.
+      <a href="/2-prerequiste/2.5-transferfile/">
+           <b> 2.5 </b> Transfer all necessary files
           
             <i class="fas fa-check read-icon"></i>
           
@@ -615,8 +615,35 @@
 
 
 	<h3 id="create-a-git-credential-for-iam-service">Create a git credential for IAM service</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> aws iam create-service-specific-credential --user-name 11thfeb --service-name codecommit.amazonaws.com
-</span></span></code></pre></div><p>Please make a note of these credentials. If you want to do it via UI, check the following doc <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  aws iam create-service-specific-credential --user-name 11thfeb --service-name codecommit.amazonaws.com
+</span></span></code></pre></div><p>Result of <code>aws iam create-service-specific-credential</code> Command</p>
+<ul>
+<li>Upon executing the <code>aws iam create-service-specific-credential</code> command with the specified parameters, you will receive a result indicating the status of the service-specific credential creation process. Below is an example of what you can expect in the output:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;ServiceSpecificCredential&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;UserName&#34;</span>: <span style="color:#e6db74">&#34;11thfeb&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceUserName&#34;</span>: <span style="color:#e6db74">&#34;11thfeb-codecommit&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServicePassword&#34;</span>: <span style="color:#e6db74">&#34;generated-service-password&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceSpecificCredentialId&#34;</span>: <span style="color:#e6db74">&#34;generated-credential-id&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;CreateDate&#34;</span>: <span style="color:#e6db74">&#34;2024-03-11T11:50:07.525000+07:00&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceName&#34;</span>: <span style="color:#e6db74">&#34;codecommit.amazonaws.com&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Status&#34;</span>: <span style="color:#e6db74">&#34;Active&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;SecretAccessKey&#34;</span>: <span style="color:#e6db74">&#34;generated-secret-access-key&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><em>UserName</em>: The name of the IAM user associated with the service-specific credential.</li>
+<li><em>ServiceUserName</em>: The name of the service-specific credential IAM user for CodeCommit.</li>
+<li><em>ServicePassword</em>: The generated password for the service-specific credential.</li>
+<li><em>ServiceSpecificCredentialId</em>: A unique identifier for the service-specific credential.</li>
+<li><em>CreateDate</em>: The timestamp indicating when the service-specific credential was created.</li>
+<li><em>ServiceName</em>: The name of the service associated with the credential, in this case, &ldquo;codecommit.amazonaws.com&rdquo;.</li>
+<li><em>Status</em>: The status of the service-specific credential, which is typically &ldquo;Active&rdquo; upon creation.</li>
+<li><em>SecretAccessKey</em>: The generated secret access key for the service-specific credential.</li>
+</ul>
+<p>This output confirms that the service-specific credential for accessing CodeCommit has been successfully created for the IAM user &ldquo;11thfeb&rdquo;. Make sure to securely store the generated password and secret access key, as they are required for authentication when accessing CodeCommit repositories.</p>
+<p>Please make a note of these credentials. If you want to do it via UI, check the following doc <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html</a></p>
 
 
 
@@ -895,19 +922,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.min.js?1710348324"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1710348324"></script>
-    <script src="/js/jquery.sticky.js?1710348324"></script>
-    <script src="/js/featherlight.min.js?1710348324"></script>
-    <script src="/js/highlight.pack.js?1710348324"></script>
+    <script src="/js/clipboard.min.js?1710350772"></script>
+    <script src="/js/perfect-scrollbar.min.js?1710350772"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1710350772"></script>
+    <script src="/js/jquery.sticky.js?1710350772"></script>
+    <script src="/js/featherlight.min.js?1710350772"></script>
+    <script src="/js/highlight.pack.js?1710350772"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1710348324"></script>
-    <script src="/js/learn.js?1710348324"></script>
-    <script src="/js/hugo-learn.js?1710348324"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1710350772"></script>
+    <script src="/js/learn.js?1710350772"></script>
+    <script src="/js/hugo-learn.js?1710350772"></script>
 
-    <link href="/mermaid/mermaid.css?1710348324" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1710348324"></script>
+    <link href="/mermaid/mermaid.css?1710350772" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1710350772"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
