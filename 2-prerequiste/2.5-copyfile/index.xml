@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Copy all the files to this application and Kubernetes manifests to this directory. on AWS System Manager</title>
+    <title>Copy all the files to this application and Kubernetes manifests to this directory. on AWS CodePipeline</title>
     <link>//localhost:1313/2-prerequiste/2.5-copyfile/</link>
-    <description>Recent content in Copy all the files to this application and Kubernetes manifests to this directory. on AWS System Manager</description>
+    <description>Recent content in Copy all the files to this application and Kubernetes manifests to this directory. on AWS CodePipeline</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <atom:link href="//localhost:1313/2-prerequiste/2.5-copyfile/index.xml" rel="self" type="application/rss+xml" />

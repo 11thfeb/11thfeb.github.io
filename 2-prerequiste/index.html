@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Preparation  :: AWS System Manager</title>
+    <title>Preparation  :: AWS CodePipeline</title>
 
     
-    <link href="/css/nucleus.css?1710307535" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1710307535" rel="stylesheet">
-    <link href="/css/hybrid.css?1710307535" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1710307535" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1710307535" rel="stylesheet">
-    <link href="/css/auto-complete.css?1710307535" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1710307535" rel="stylesheet">
-    <link href="/css/theme.css?1710307535" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1710307535" rel="stylesheet">
+    <link href="/css/nucleus.css?1710348324" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1710348324" rel="stylesheet">
+    <link href="/css/hybrid.css?1710348324" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1710348324" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1710348324" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710348324" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1710348324" rel="stylesheet">
+    <link href="/css/theme.css?1710348324" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1710348324" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1710307535" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1710348324" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1710307535"></script>
+    <script src="/js/jquery-3.3.1.min.js?1710348324"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1710307535"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1710307535"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1710348324"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1710348324"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1710307535"></script>
+<script type="text/javascript" src="/js/search.js?1710348324"></script>
 
     
   </div>
@@ -428,7 +428,7 @@
         
         ">
       <a href="/5-cleanup/">
-          <b>6. </b>Clean up resources
+          <b> 6 </b>Clean up resources
           
             <i class="fas fa-check read-icon"></i>
           
@@ -600,10 +600,43 @@
 
 
 
-	<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+	<p>Preparation Steps for Setting Up a CI/CD Pipeline on AWS
+Before setting up your CI/CD pipeline on AWS, it&rsquo;s crucial to ensure that all necessary components are created and configured properly. Follow these steps to prepare your environment:</p>
+<ol>
+<li>
+<p><a href="/2-prerequiste/2.1-createecr/">Create an Amazon ECR (Elastic Container Registry)</a>
+Amazon ECR allows you to store, manage, and deploy Docker container images. Create a new ECR repository where your application images will be stored.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.2-createcodecommit/">Create a CodeCommit Repository</a>
+CodeCommit is a fully-managed source control service that hosts Git repositories. Create a CodeCommit repository to store your application code.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.3-createiam/">Create Git Credentials for IAM Service</a>
+Generate Git credentials within AWS IAM (Identity and Access Management) to securely authenticate with your CodeCommit repository.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.4-clonerepo/">Clone the Git Repo Created in Step 2</a>
+Clone the newly created CodeCommit repository to your local development environment using Git commands. This will allow you to work with your application code locally.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.5-copyfile/">Copy All Files to the Application Directory</a>
+Ensure that all necessary files, including your application code and Kubernetes manifests, are copied to the directory where you cloned the Git repository. This step ensures that your local environment is synced with the CodeCommit repository.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.6-createstsassume/">Create an STS Assume Role</a>
+STS (Security Token Service) enables you to request temporary, limited-privilege credentials for accessing AWS resources. Create an STS Assume Role that CodeBuild will use to perform actions on your behalf.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.7-createiamrole/">Add the Newly Created IAM Role</a>
+Grant the necessary permissions to the IAM role associated with CodeBuild. This ensures that CodeBuild has the required permissions to interact with AWS resources during the build process.</p>
+</li>
+<li>
+<p><a href="/2-prerequiste/2.8-codebuild/">Create the buildspec.yml for CodeBuild</a>
+The buildspec.yml file defines the build settings and commands that CodeBuild will execute during the build process. Create and configure the buildspec.yml file to specify the build steps for your application.</p>
+</li>
+</ol>
+<p>By completing these preparation steps, you&rsquo;ll have all the necessary components in place to set up your CI/CD pipeline efficiently on AWS. With a well-prepared environment, you&rsquo;ll be ready to automate the deployment of your applications seamlessly.</p>
 
 
 
@@ -878,19 +911,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1710307536"></script>
-    <script src="/js/perfect-scrollbar.min.js?1710307536"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1710307536"></script>
-    <script src="/js/jquery.sticky.js?1710307536"></script>
-    <script src="/js/featherlight.min.js?1710307536"></script>
-    <script src="/js/highlight.pack.js?1710307536"></script>
+    <script src="/js/clipboard.min.js?1710348324"></script>
+    <script src="/js/perfect-scrollbar.min.js?1710348324"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1710348324"></script>
+    <script src="/js/jquery.sticky.js?1710348324"></script>
+    <script src="/js/featherlight.min.js?1710348324"></script>
+    <script src="/js/highlight.pack.js?1710348324"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1710307536"></script>
-    <script src="/js/learn.js?1710307536"></script>
-    <script src="/js/hugo-learn.js?1710307536"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1710348324"></script>
+    <script src="/js/learn.js?1710348324"></script>
+    <script src="/js/hugo-learn.js?1710348324"></script>
 
-    <link href="/mermaid/mermaid.css?1710307536" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1710307536"></script>
+    <link href="/mermaid/mermaid.css?1710348324" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1710348324"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
