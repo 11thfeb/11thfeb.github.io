@@ -25,22 +25,34 @@
   </url><url>
     <loc>//localhost:1313/2-prerequiste/2.3-createiam/</loc>
   </url><url>
-    <loc>//localhost:1313/3-createpipeline/</loc>
+    <loc>//localhost:1313/3-iam/</loc>
   </url><url>
     <loc>//localhost:1313/2-prerequiste/2.4-clonerepo/</loc>
   </url><url>
-    <loc>//localhost:1313/4-iam/</loc>
+    <loc>//localhost:1313/4-createpipeline/4.1-createnewpipeline/</loc>
+  </url><url>
+    <loc>//localhost:1313/4-createpipeline/</loc>
+  </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.2-addsourcestage/</loc>
   </url><url>
     <loc>//localhost:1313/2-prerequiste/2.5-transferfile/</loc>
   </url><url>
     <loc>//localhost:1313/5-cleanup/</loc>
     <lastmod>1970-01-01T08:33:42+08:00</lastmod>
   </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.3-addbuildstage/</loc>
+  </url><url>
     <loc>//localhost:1313/2-prerequiste/2.6-createstsassume/</loc>
   </url><url>
     <loc>//localhost:1313/2-prerequiste/2.7-createiamrole/</loc>
   </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.4-createproject/</loc>
+  </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.5-adddeploystage/</loc>
+  </url><url>
     <loc>//localhost:1313/2-prerequiste/2.8-codebuild/</loc>
+  </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.6-review/</loc>
   </url><url>
     <loc>//localhost:1313/categories/</loc>
     <xhtml:link
