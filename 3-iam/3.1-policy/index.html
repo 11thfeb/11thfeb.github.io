@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Create a git credential for IAM service :: AWS CodePipeline</title>
+    <title>Create Policy :: AWS CodePipeline</title>
 
     
     <link href="/css/nucleus.css?1710385027" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/2-prerequiste/2.3-createiam/">
+  <body class="" data-url="/3-iam/3.1-policy/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -109,7 +109,7 @@
   
     
     <li data-nav-id="/2-prerequiste/" title="Preparation " class="dd-item 
-        parent
+        
         
         
         ">
@@ -197,7 +197,7 @@
     
     <li data-nav-id="/2-prerequiste/2.3-createiam/" title="Create a git credential for IAM service" class="dd-item 
         
-        active
+        
         
         ">
       <a href="/2-prerequiste/2.3-createiam/">
@@ -371,7 +371,7 @@
   
     
     <li data-nav-id="/3-iam/" title="Create IAM Role &amp; Policy" class="dd-item 
-        
+        parent
         
         
         ">
@@ -403,7 +403,7 @@
     
     <li data-nav-id="/3-iam/3.1-policy/" title="Create Policy" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/3-iam/3.1-policy/">
@@ -725,7 +725,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-prerequiste/2.3-createiam/" selected>English</option>
+                      <option id="en" value="//localhost:1313/3-iam/3.1-policy/" selected>English</option>
                     
                   
               
@@ -817,7 +817,7 @@
             
           
           
-            <a href='/'>AWS CodePipeline</a> > <a href='/2-prerequiste/'>Preparation </a> > Create a git credential for IAM service
+            <a href='/'>AWS CodePipeline</a> > <a href='/3-iam/'>Create IAM Role & Policy</a> > Create Policy
           
         
           
@@ -834,7 +834,7 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#create-a-git-credential-for-iam-service">Create a git credential for IAM service</a></li>
+        <li></li>
       </ul>
     </li>
   </ul>
@@ -854,7 +854,7 @@
           
             <h1>
               
-              Create a git credential for IAM service
+              Create Policy
             </h1>
           
 
@@ -862,36 +862,34 @@
 
 
 
-	<h3 id="create-a-git-credential-for-iam-service">Create a git credential for IAM service</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  aws iam create-service-specific-credential --user-name 11thfeb --service-name codecommit.amazonaws.com
-</span></span></code></pre></div><p>Result of <code>aws iam create-service-specific-credential</code> Command</p>
+	<h4 id="add-permission-role-for-eks">Add permission role for EKS.</h4>
+<p>Go to the IAM console, Policies, and click on Create policy.</p>
+<ol>
+<li>Go to <a href="https://console.aws.amazon.com/iamv2/home?#/home">IAM service management console</a></li>
+</ol>
+<p><img alt="Connect" src="/images/3.createpipeline/createpolicy.png"></p>
 <ul>
-<li>Upon executing the <code>aws iam create-service-specific-credential</code> command with the specified parameters, you will receive a result indicating the status of the service-specific credential creation process. Below is an example of what you can expect in the output:</li>
+<li>In the policy, specify the below policy and the IAM role we created in Step 6.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;ServiceSpecificCredential&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;UserName&#34;</span>: <span style="color:#e6db74">&#34;11thfeb&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceUserName&#34;</span>: <span style="color:#e6db74">&#34;11thfeb-codecommit&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServicePassword&#34;</span>: <span style="color:#e6db74">&#34;generated-service-password&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceSpecificCredentialId&#34;</span>: <span style="color:#e6db74">&#34;generated-credential-id&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;CreateDate&#34;</span>: <span style="color:#e6db74">&#34;2024-03-11T11:50:07.525000+07:00&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;ServiceName&#34;</span>: <span style="color:#e6db74">&#34;codecommit.amazonaws.com&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Status&#34;</span>: <span style="color:#e6db74">&#34;Active&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;SecretAccessKey&#34;</span>: <span style="color:#e6db74">&#34;generated-secret-access-key&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Statement&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;VisualEditor0&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;sts:AssumeRole&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:iam::XXXXXXX:role/CodeBuildEKSRole&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><ul>
-<li><em>UserName</em>: The name of the IAM user associated with the service-specific credential.</li>
-<li><em>ServiceUserName</em>: The name of the service-specific credential IAM user for CodeCommit.</li>
-<li><em>ServicePassword</em>: The generated password for the service-specific credential.</li>
-<li><em>ServiceSpecificCredentialId</em>: A unique identifier for the service-specific credential.</li>
-<li><em>CreateDate</em>: The timestamp indicating when the service-specific credential was created.</li>
-<li><em>ServiceName</em>: The name of the service associated with the credential, in this case, &ldquo;codecommit.amazonaws.com&rdquo;.</li>
-<li><em>Status</em>: The status of the service-specific credential, which is typically &ldquo;Active&rdquo; upon creation.</li>
-<li><em>SecretAccessKey</em>: The generated secret access key for the service-specific credential.</li>
+<li>Within this interface, you have the capability to input JSON data directly into the policy editor.</li>
 </ul>
-<p>This output confirms that the service-specific credential for accessing CodeCommit has been successfully created for the IAM user &ldquo;11thfeb&rdquo;. Make sure to securely store the generated password and secret access key, as they are required for authentication when accessing CodeCommit repositories.</p>
-<p>Please make a note of these credentials. If you want to do it via UI, check the following doc <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html</a></p>
+<p><img alt="Connect" src="/images/3.createpipeline/jsonpolicy.png"></p>
+<ul>
+<li>Give your policy name (codebuild-sts-role), and click on the &ldquo;Create policy&rdquo; button to proceed to the next step.</li>
+</ul>
+<p><img alt="Connect" src="/images/3.createpipeline/stsrole.png"></p>
 
 
 
@@ -951,7 +949,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -966,9 +963,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1002,7 +996,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1018,9 +1011,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1105,6 +1095,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -1119,6 +1110,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -1135,6 +1127,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1289,10 +1284,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/2-prerequiste/2.2-createcodecommit/" title="Create a CodeCommit Repository"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/3-iam/" title="Create IAM Role &amp; Policy"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/2-prerequiste/2.4-clonerepo/" title="Clone the git repo created in step 2" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/3-iam/3.2-role/" title="Create Role" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

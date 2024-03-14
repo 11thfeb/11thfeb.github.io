@@ -33,12 +33,16 @@
   </url><url>
     <loc>//localhost:1313/4-createpipeline/</loc>
   </url><url>
-    <loc>//localhost:1313/4-createpipeline/4.2-addsourcestage/</loc>
-  </url><url>
-    <loc>//localhost:1313/2-prerequiste/2.5-transferfile/</loc>
+    <loc>//localhost:1313/3-iam/3.1-policy/</loc>
   </url><url>
     <loc>//localhost:1313/5-cleanup/</loc>
     <lastmod>1970-01-01T08:33:42+08:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/4-createpipeline/4.2-addsourcestage/</loc>
+  </url><url>
+    <loc>//localhost:1313/3-iam/3.2-role/</loc>
+  </url><url>
+    <loc>//localhost:1313/2-prerequiste/2.5-transferfile/</loc>
   </url><url>
     <loc>//localhost:1313/4-createpipeline/4.3-addbuildstage/</loc>
   </url><url>
