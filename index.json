@@ -46,7 +46,7 @@
 	"title": "Create IAM Role &amp; Policy",
 	"tags": [],
 	"description": "",
-	"content": " "
+	"content": "Introduction In Amazon Web Services (AWS), Identity and Access Management (IAM) plays a crucial role in controlling access to various AWS services and resources. Creating IAM roles and policies allows you to define granular permissions for users, applications, or services within your AWS environment. This guide will walk you through the process of creating an IAM role and policy to grant specific access to AWS services.\nDefine Access Requirements:\nIdentify the specific AWS services and resources that require access. Determine the level of access required (e.g., read-only, write, administrative). Navigate to IAM Console:\nLog in to the AWS Management Console and navigate to the IAM service. Create IAM Role:\nClick on \u0026ldquo;Roles\u0026rdquo; in the left-hand navigation pane. Click on the \u0026ldquo;Create role\u0026rdquo; button. Select the service that will use the role (e.g., AWS service, another AWS account). Choose the use case or service role permissions policies that align with your access requirements. Optionally, add tags to the role for better organization and management. Review and confirm the role details before creating it. Create IAM Policy:\nClick on \u0026ldquo;Policies\u0026rdquo; in the left-hand navigation pane. Click on the \u0026ldquo;Create policy\u0026rdquo; button. Choose between the JSON and Visual Editor options to define the policy. Define the policy\u0026rsquo;s permissions, specifying actions, resources, and conditions. Review and validate the policy to ensure it aligns with your access requirements. Give the policy a descriptive name and optionally add a description. Review and confirm the policy details before creating it. Attach Policy to Role:\nGo back to the Roles section in the IAM console. Select the role you created earlier. Under the \u0026ldquo;Permissions\u0026rdquo; tab, click on \u0026ldquo;Attach policies.\u0026rdquo; Search for and select the policy you created in the previous step. Review the policy summary and attach it to the role. Test and Monitor:\nValidate the access permissions by testing the role with the intended AWS service or resource. Monitor the IAM role and policy for any changes or updates required based on evolving access requirements.\n"
 },
 {
 	"uri": "//localhost:1313/2-prerequiste/2.4-clonerepo/",
@@ -60,7 +60,7 @@
 	"title": "Create AWS CodePipeline",
 	"tags": [],
 	"description": "",
-	"content": "Go to the CodePipeline url page and click on Create pipeline\nGive your pipeline name(my-eks-pipeline), and leave the service role field. It should be auto-populated. Leave the default setting in the rest of the field and click Next.\n"
+	"content": " Go to the CodePipeline url page and click on Create pipeline Give your pipeline name(my-eks-pipeline), and leave the service role field. It should be auto-populated. Leave the default setting in the rest of the field and click Next. "
 },
 {
 	"uri": "//localhost:1313/4-createpipeline/",
@@ -95,7 +95,7 @@
 	"title": "Create Role",
 	"tags": [],
 	"description": "",
-	"content": " Go to the IAM console, Role, and click on Create Role.\nGo to IAM service management console "
+	"content": "Add permission role for EKS. To access the IAM console and manage roles, follow these steps:\nNavigate to the IAM service management console. Select \u0026ldquo;Roles\u0026rdquo; from the menu and click on the desired role. Once selected, you\u0026rsquo;ll be presented with role information. Click on the \u0026ldquo;Attach policies\u0026rdquo; button to proceed. Search for the role created in the previous step, namely \u0026ldquo;codebuild-sts-role,\u0026rdquo; and click \u0026ldquo;Add permissions.\u0026rdquo; Next, search for \u0026ldquo;AmazonEC2ContainerRegistryFullAccess,\u0026rdquo; select it, and click \u0026ldquo;Add permissions.\u0026rdquo; Review your changes. The result will be displayed as shown below. "
 },
 {
 	"uri": "//localhost:1313/2-prerequiste/2.5-transferfile/",
@@ -130,14 +130,14 @@
 	"title": "Create project",
 	"tags": [],
 	"description": "",
-	"content": "Click on Create project.\nGive your project name and under a Managed image, select Amazon Linux 2\nChoose runtime as Standard, Image(from the drag down, choose the latest), and keep the rest of the settings as default.\nIf your buildspec.yml exists at the Git repository’s root, you don’t need to specify it here.\nSpecify the details if you want to send logs to CloudWatch or S3. Click on Continue to CodePipeline at the bottom of the screen.\nClick on Continue to CodePipeline.\n"
+	"content": " Click on Create project. Give your project name and under a Managed image, select Amazon Linux 2 Choose runtime as Standard, Image(from the drag down, choose the latest), and keep the rest of the settings as default. If your buildspec.yml exists at the Git repository’s root, you don’t need to specify it here. Specify the details if you want to send logs to CloudWatch or S3. Click on Continue to CodePipeline at the bottom of the screen. Click on Continue to CodePipeline. "
 },
 {
 	"uri": "//localhost:1313/4-createpipeline/4.5-adddeploystage/",
 	"title": "Add deploy stage",
 	"tags": [],
 	"description": "",
-	"content": "\nBefore moving to the next step, you need to add a few environment variables, as mentioned above.\nUnder the deploy stage, click on Skip deploy stage. As deploy doesn’t support EKS, I already specified the deployed step in the build stage.\nClick on the \u0026ldquo;Skip deploy stage\u0026rdquo; button to proceed to the next step\nClick on the \u0026ldquo;Skip\u0026rdquo; button to proceed to the next step\n"
+	"content": "\nBefore moving to the next step, you need to add a few environment variables, as mentioned above. Under the deploy stage, click on Skip deploy stage. As deploy doesn’t support EKS, I already specified the deployed step in the build stage. Click on the \u0026ldquo;Skip deploy stage\u0026rdquo; button to proceed to the next step Click on the \u0026ldquo;Skip\u0026rdquo; button to proceed to the next step "
 },
 {
 	"uri": "//localhost:1313/2-prerequiste/2.8-codebuild/",
@@ -151,7 +151,7 @@
 	"title": "Review",
 	"tags": [],
 	"description": "",
-	"content": " Take a moment to review the parameters and information you\u0026rsquo;ve configured in the previous steps. This ensures that your pipeline will be set up correctly according to your specifications.\nDouble-check the pipeline name, source provider, repository name, branch selection, and any other settings you\u0026rsquo;ve configured.\nVerify that the options for change detection and output artifact format are set to your desired defaults, or adjust them if necessary.\nPay close attention to any environment variables or additional configurations you\u0026rsquo;ve added, ensuring they are accurate and properly configured.\nIt\u0026rsquo;s always a good practice to review your configuration at least once before proceeding to create the pipeline. This helps prevent any potential errors or misconfigurations that could impact the functionality of your pipeline.\nOnce you\u0026rsquo;ve verified everything looks correct, you can confidently proceed by clicking the \u0026ldquo;Create pipeline\u0026rdquo; button to finalize the setup.\nClick on the \u0026ldquo;Create pipeline\u0026rdquo; button to proceed to the next step\nAnd this is our result:\n"
+	"content": " Take a moment to review the parameters and information you\u0026rsquo;ve configured in the previous steps. This ensures that your pipeline will be set up correctly according to your specifications.\nDouble-check the pipeline name, source provider, repository name, branch selection, and any other settings you\u0026rsquo;ve configured.\nVerify that the options for change detection and output artifact format are set to your desired defaults, or adjust them if necessary.\nPay close attention to any environment variables or additional configurations you\u0026rsquo;ve added, ensuring they are accurate and properly configured.\nIt\u0026rsquo;s always a good practice to review your configuration at least once before proceeding to create the pipeline. This helps prevent any potential errors or misconfigurations that could impact the functionality of your pipeline.\nOnce you\u0026rsquo;ve verified everything looks correct, you can confidently proceed by clicking the \u0026ldquo;Create pipeline\u0026rdquo; button to finalize the setup.\nClick on the \u0026ldquo;Create pipeline\u0026rdquo; button to proceed to the next step "
 },
 {
 	"uri": "//localhost:1313/categories/",
